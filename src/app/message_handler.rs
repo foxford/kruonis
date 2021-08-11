@@ -83,8 +83,7 @@ pub async fn handle_subscription_request<T: std::fmt::Debug>(
 
                     let response_topic = Subscription::unicast_responses_from(&broker_id)
                         .subscription_topic(&self_agent_id, API_VERSION)
-                        .map_err(|e| format!("Failed to build response topic, reason = {:?}", e))?
-                        .to_owned();
+                        .map_err(|e| format!("Failed to build response topic, reason = {:?}", e))?;
 
                     let corr_data_payload =
                         CorrelationDataPayload::new(reqp.to_owned(), subject, object);

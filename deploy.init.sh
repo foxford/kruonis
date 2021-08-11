@@ -65,4 +65,4 @@ for FILE in ${CI_FILES[@]}; do
     ADD_PROJECT "deploy/${FILE}" "${PROJECT}"
 done
 
-chmod u+x deploy/{ci-mdbook.sh,ci-build.sh,ci-deploy.sh,ci-install-tools.sh}
+chmod u+x deploy/{ci-mdbook.sh,ci-build.sh,ci-deploy.sh,ci-install-tools.sh,github-actions-run.sh}

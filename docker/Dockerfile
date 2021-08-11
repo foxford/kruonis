@@ -1,4 +1,4 @@
-FROM rust:1.41.0-slim-buster as build-stage
+FROM rust:1.54.0-slim-buster as build-stage
 
 WORKDIR "/build"
 
