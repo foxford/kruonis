@@ -45,7 +45,7 @@ pub(crate) async fn run(config: &Config) -> Result<(), String> {
 
     subscribe(&mut agent, &agent_id)?;
     spawn_subscriptions_handler(agent.clone(), mq_rx, agent_id, config.broker_id.clone());
-    send_events(&mut agent, &config).await?;
+    send_events(&mut agent, config).await?;
     Ok(())
 }
 
