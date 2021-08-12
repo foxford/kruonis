@@ -119,7 +119,7 @@ fn spawn_subscriptions_handler(
                     svc_agent::mqtt::AgentNotification::Message(Err(err), _message_data) => {
                         error!("Error parsing incoming message: {}", err);
                     }
-                    svc_agent::mqtt::AgentNotification::Disconnection => {
+                    svc_agent::mqtt::AgentNotification::Disconnect => {
                         error!("Disconnected from broker");
                     }
                     svc_agent::mqtt::AgentNotification::Reconnection => {
