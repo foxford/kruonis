@@ -36,6 +36,8 @@ pub enum Event {
     SystemVacuum,
     #[serde(rename = "room.notify_opened")]
     RoomNotifyOpened,
+    #[serde(rename = "system.close_orphaned_rooms")]
+    CloseOrphanedRooms,
 }
 
 impl Event {
@@ -60,6 +62,12 @@ impl Event {
             Self::RoomNotifyOpened => Box::new(OutgoingEvent::multicast(
                 payload,
                 build_props("room.notify_opened"),
+                &svc_account(config, "conference"),
+                CONFERENCE_API_VERSION,
+            )),
+            Self::CloseOrphanedRooms => Box::new(OutgoingEvent::multicast(
+                payload,
+                build_props("system.close_orphaned_rooms"),
                 &svc_account(config, "conference"),
                 CONFERENCE_API_VERSION,
             )),
