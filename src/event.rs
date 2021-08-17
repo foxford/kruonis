@@ -69,7 +69,7 @@ impl Event {
                 payload,
                 build_props("system.close_orphaned_rooms"),
                 &svc_account(config, "conference"),
-                CONFERENCE_API_VERSION,
+                "v1",
             )),
         }
     }
