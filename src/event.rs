@@ -9,7 +9,8 @@ use svc_agent::{
 
 use crate::config::Config;
 
-const CONFERENCE_API_VERSION: &str = "v2";
+const CONFERENCE_V2_API_VERSION: &str = "v2";
+const CONFERENCE_V1_API_VERSION: &str = "v1";
 
 #[derive(Debug, Default, Serialize)]
 struct Payload {
@@ -57,19 +58,19 @@ impl Event {
                 payload,
                 build_props("system.vacuum"),
                 &svc_account(config, "conference"),
-                CONFERENCE_API_VERSION,
+                CONFERENCE_V2_API_VERSION,
             )),
             Self::RoomNotifyOpened => Box::new(OutgoingEvent::multicast(
                 payload,
                 build_props("room.notify_opened"),
                 &svc_account(config, "conference"),
-                CONFERENCE_API_VERSION,
+                CONFERENCE_V2_API_VERSION,
             )),
             Self::CloseOrphanedRooms => Box::new(OutgoingEvent::multicast(
                 payload,
                 build_props("system.close_orphaned_rooms"),
                 &svc_account(config, "conference"),
-                "v1",
+                CONFERENCE_V1_API_VERSION,
             )),
         }
     }
