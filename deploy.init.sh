@@ -59,7 +59,7 @@ fi
 FILE_FROM_GITHUB "deploy" "${SOURCE}/utils/ci-install-tools.sh"
 
 ## Use the same project for build & deploy scripts.
-CI_FILES=(ci-build.sh ci-deploy.sh ci-mdbook.sh)
+CI_FILES=(ci-build.sh ci-deploy.sh ci-mdbook.sh github-actions-run.sh)
 for FILE in ${CI_FILES[@]}; do
     FILE_FROM_GITHUB "deploy" "${SOURCE}/utils/${FILE}"
     ADD_PROJECT "deploy/${FILE}" "${PROJECT}"
