@@ -4,16 +4,17 @@ app:
       classroom:
         _default: 1
   env:
-    ng:
-      classroom:
-        rust_log:
-          _default: ""
-          production: error
+    rust_log:
+      ng:
+        classroom:
+            _default: ""
+            production: error
   resources:
-    ng:
-      cpu:
+    cpu:
+      ng:
         classroom:
           _default: 200m
-      memory:
+    memory:
+      ng:
         classroom:
           _default: 400Mi

@@ -36,7 +36,7 @@ spec:
                 fieldPath: metadata.name
 {{- if eq .Values.werf.env "production" }}
           - name: RUST_LOG
-            value: {{ pluck .Values.werf.env .Values.app.env.rust_log | first | default .Values.app.env.rust_log }}
+            value: {{ pluck .Values.werf.env (index .Values.app.env.rust_log .Values.global.org .Values.global.app) | first | default (index .Values.app.env.rust_log .Values.global.org .Values.global.app)._default }}
 {{- end }}
 ---
 apiVersion: v1

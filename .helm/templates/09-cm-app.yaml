@@ -24,6 +24,6 @@ data:
 {{- if ne .Values.werf.env "production" }}
     "room.notify_opened" = {{ pluck .Values.werf.env .Values.app.events.room.notify_opened | first | default .Values.app.events.room.notify_opened._default | quote }}
 {{- end }}
-{{- if and (not .Values.werf.env "production") (not .Values.werf.env "staging01") }}
+{{- if and (ne .Values.werf.env "production") (ne .Values.werf.env "staging01") }}
     "system.close_orphaned_rooms" = {{ pluck .Values.werf.env .Values.app.events.system.close_orphaned_rooms | first | default .Values.app.events.system.close_orphaned_rooms._default | quote }}
 {{- end }}
