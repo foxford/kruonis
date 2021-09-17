@@ -1,0 +1,19 @@
+app:
+  replicas:
+    ng:
+      classroom:
+        _default: 1
+  env:
+    ng:
+      classroom:
+        rust_log:
+          _default: ""
+          production: error
+  resources:
+    ng:
+      cpu:
+        classroom:
+          _default: 200m
+      memory:
+        classroom:
+          _default: 400Mi

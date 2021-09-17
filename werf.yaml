@@ -1,0 +1,5 @@
+project: kruonis
+configVersion: 1
+---
+image: kruonis
+dockerfile: docker/Dockerfile

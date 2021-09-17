@@ -1,0 +1,29 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-config
+data:
+  App.toml: |
+    id = {{ pluck .Values.werf.env (index .Values.app.id .Values.global.org .Values.global.app) | first | default (index .Values.app.id .Values.global.org .Values.global.app)._default }}
+    broker_id = {{ pluck .Values.werf.env (index .Values.app.broker_id .Values.global.org .Values.global.app) | first | default (index .Values.app.broker_id .Values.global.org .Values.global.app)._default }}
+    svc_audience = {{ pluck .Values.werf.env (index .Values.app.svc_audience .Values.global.org .Values.global.app) | first | default (index .Values.app.svc_audience .Values.global.org .Values.global.app)._default }}
+
+    [id_token]
+    algorithm = {{ pluck .Values.werf.env .Values.app.id_token.algorithm | first | default .Values.app.id_token.algorithm._default | quote }}
+    key = {{ pluck .Values.werf.env .Values.app.id_token.key | first | default .Values.app.id_token.key._default | quote }}
+
+    [mqtt]
+    uri = {{ pluck .Values.werf.env .Values.app.mqtt.uri | first | default .Values.app.mqtt.uri._default | quote }}
+    clean_session = {{ pluck .Values.werf.env .Values.app.mqtt.clean_session | first | default .Values.app.mqtt.clean_session._default | quote }}
+    reconnect_interval = {{ pluck .Values.werf.env .Values.app.mqtt.reconnect_interval | first | default .Values.app.mqtt.reconnect_interval._default | quote }}
+    keep_alive = {{ pluck .Values.werf.env .Values.app.mqtt.keep_alive | first | default .Values.app.mqtt.keep_alive._default | quote }}
+
+    [events]
+    "metric.pull" = {{ pluck .Values.werf.env .Values.app.events.metric.pull | first | default .Values.app.events.metric.pull._default | quote }}
+{{- if ne .Values.werf.env "production" }}
+    "room.notify_opened" = {{ pluck .Values.werf.env .Values.app.events.room.notify_opened | first | default .Values.app.events.room.notify_opened._default | quote }}
+{{- end }}
+{{- if and (not .Values.werf.env "production") (not .Values.werf.env "staging01") }}
+    "system.close_orphaned_rooms" = {{ pluck .Values.werf.env .Values.app.events.system.close_orphaned_rooms | first | default .Values.app.events.system.close_orphaned_rooms._default | quote }}
+{{- end }}

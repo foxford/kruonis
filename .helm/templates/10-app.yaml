@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  serviceName: {{ .Chart.Name }}-headless
+  replicas: {{ pluck .Values.werf.env (index .Values.app.replicas .Values.global.org .Values.global.app) | first | default (index .Values.app.replicas .Values.global.org .Values.global.app)._default }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      imagePullSecrets:
+      - name: registrysecret
+      containers:
+      - name: kruonis
+        image: {{ .Values.werf.image.kruonis }}
+        resources:
+          requests:
+            cpu: {{ pluck .Values.werf.env (index .Values.app.resources.cpu .Values.global.org .Values.global.app) | first | default (index .Values.app.resources.cpu .Values.global.org .Values.global.app)._default }}
+            memory: {{ pluck .Values.werf.env (index .Values.app.resources.memory .Values.global.org .Values.global.app) | first | default (index .Values.app.resources.memory .Values.global.org .Values.global.app)._default }}
+          limits:
+            memory: {{ pluck .Values.werf.env (index .Values.app.resources.memory .Values.global.org .Values.global.app) | first | default (index .Values.app.resources.memory .Values.global.org .Values.global.app)._default }}
+        env:
+          - name: APP_AGENT_LABEL
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+{{- if eq .Values.werf.env "production" }}
+          - name: RUST_LOG
+            value: {{ pluck .Values.werf.env .Values.app.env.rust_log | first | default .Values.app.env.rust_log }}
+{{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}-headless
+spec:
+  selector:
+    app: {{ .Chart.Name }}
+  clusterIP: None
