@@ -8,8 +8,6 @@ metadata:
 spec:
   serviceName: {{ .Chart.Name }}-headless
   replicas: {{ pluck .Values.werf.env (index .Values.app.replicas .Values.global.org .Values.global.app) | first | default (index .Values.app.replicas .Values.global.org .Values.global.app)._default }}
-  strategy:
-    type: Recreate
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
