@@ -5,9 +5,9 @@ metadata:
   name: {{ .Chart.Name }}-config
 data:
   App.toml: |
-    id = {{ pluck .Values.werf.env (index .Values.app.id .Values.global.org .Values.global.app) | first | default (index .Values.app.id .Values.global.org .Values.global.app)._default }}
-    broker_id = {{ pluck .Values.werf.env (index .Values.app.broker_id .Values.global.org .Values.global.app) | first | default (index .Values.app.broker_id .Values.global.org .Values.global.app)._default }}
-    svc_audience = {{ pluck .Values.werf.env (index .Values.app.svc_audience .Values.global.org .Values.global.app) | first | default (index .Values.app.svc_audience .Values.global.org .Values.global.app)._default }}
+    id = {{ pluck .Values.werf.env (index .Values.app.id .Values.global.org .Values.global.app) | first | default (index .Values.app.id .Values.global.org .Values.global.app)._default | quote }}
+    broker_id = {{ pluck .Values.werf.env (index .Values.app.broker_id .Values.global.org .Values.global.app) | first | default (index .Values.app.broker_id .Values.global.org .Values.global.app)._default | qoute }}
+    svc_audience = {{ pluck .Values.werf.env (index .Values.app.svc_audience .Values.global.org .Values.global.app) | first | default (index .Values.app.svc_audience .Values.global.org .Values.global.app)._default | quote }}
 
     [id_token]
     algorithm = {{ pluck .Values.werf.env .Values.app.id_token.algorithm | first | default .Values.app.id_token.algorithm._default | quote }}
