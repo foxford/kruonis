@@ -24,32 +24,6 @@ Short namespace.
 {{- end }}
 
 {{/*
-Namespace in ingress path.
-converts as follows:
-- testing01 -> t01
-- staging01-classroom-ng -> s01/classroom-ng
-- producion-webinar-ng -> webinar-foxford
-*/}}
-{{- define "kruonis.ingressPathNamespace" -}}
-{{- $ns_head := regexSplit "-" .Release.Namespace -1 | first }}
-{{- $ns_tail := regexSplit "-" .Release.Namespace -1 | rest | join "-" }}
-{{- if eq $ns_head "production" }}
-{{- regexReplaceAll "(.*)-ng(.*)" $ns_tail "${1}-foxford${2}" }}
-{{- else }}
-{{- $v := list (regexReplaceAll "(.)[^\\d]*(.+)" $ns_head "${1}${2}") $ns_tail | compact | join "/" }}
-{{- regexReplaceAll "(.*)-ng(.*)" $v "${1}-foxford${2}" }}
-{{- end }}
-{{- end }}
-
-{{/*
-Ingress path.
-*/}}
-{{- define "kruonis.ingressPath" -}}
-{{- $shortns := regexSplit "-" .Release.Namespace -1 | first }}
-{{- list "" (include "kruonis.ingressPathNamespace" .) (include "kruonis.name" .) | join "/" }}
-{{- end }}
-
-{{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
