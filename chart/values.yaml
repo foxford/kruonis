@@ -12,14 +12,20 @@ svc:
 
 config:
   mqtt:
-    clean_session: false
+    clean_session: true
     reconnect_interval: 3
     keep_alive: 15
 
   events:
-    - name: metric.pull
-      value: 5
     - name: room.notify_opened
       value: 60
     - name: system.close_orphaned_rooms
       value: 60
+
+resources:
+  limits:
+    cpu: '0.2'
+    memory: 400Mi
+  requests:
+    cpu: '0.01'
+    memory: 100Mi
