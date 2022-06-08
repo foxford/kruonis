@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kruonis.fullname" . }}
+  labels:
+    {{- include "kruonis.labels" . | nindent 4 }}
+spec:
+  clusterIP: None
+  selector:
+    {{- include "kruonis.selectorLabels" . | nindent 4 }}
