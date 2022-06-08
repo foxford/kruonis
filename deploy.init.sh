@@ -4,6 +4,7 @@ if [[ ! ${GITHUB_TOKEN} ]]; then echo "GITHUB_TOKEN is required" 1>&2; exit 1; f
 
 PROJECT="${PROJECT:-kruonis}"
 SOURCE=${SOURCE:-"https://api.github.com/repos/netology-group/ulms-env/contents/k8s"}
+APPS_SOURCE="https://api.github.com/repos/foxford/ulms-env/contents/apps"
 BRANCH="${BRANCH:-master}"
 
 function FILE_FROM_GITHUB() {
