@@ -6,12 +6,11 @@ metadata:
   name: {{ include "kruonis.name" . }}-config
 data:
   App.toml: |
-    {{- $id := list (include "kruonis.name" . ) (include "kruonis.shortNamespace" .) .Values.svc.audience | compact | join "." }}
+    {{- $id := list (include "kruonis.name" . ) .Values.svc.audience | compact | join "." }}
     id = {{ $id | quote }}
-    {{- $broker_id := list "mqtt-gateway" (include "kruonis.shortNamespace" .) .Values.svc.audience | compact | join "." }}
+    {{- $broker_id := list "mqtt-gateway" .Values.svc.audience | compact | join "." }}
     broker_id = {{ $broker_id | quote }}
-    {{- $svc_audience := list (include "kruonis.shortNamespace" $) .Values.svc.audience | compact | join "." }}
-    svc_audience = {{ $svc_audience | quote }}
+    svc_audience = {{ .Values.svc.audience | quote }}
 
     [id_token]
     algorithm = "ES256"
