@@ -19,7 +19,7 @@ pub(crate) async fn run(config: &Config) -> Result<(), String> {
     info!("Agent id: {:?}", &agent_id);
 
     let token = jws_compact::TokenBuilder::new()
-        .issuer(&agent_id.as_account_id().audience().to_string())
+        .issuer(&agent_id.as_account_id().audience())
         .subject(&agent_id)
         .key(config.id_token.algorithm, config.id_token.key.as_slice())
         .build()
