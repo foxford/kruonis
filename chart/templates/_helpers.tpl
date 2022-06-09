@@ -81,12 +81,3 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
-
-{{/*
-Create volumeMount name
-*/}}
-{{- define "kruonis.volumeMountName" -}}
-{{- $prefix := index . 0 -}}
-{{- $secret := index . 1 -}}
-{{- printf "%s-%s-secret" $prefix $secret | replace "." "-" | trunc 63 }}
-{{- end }}
