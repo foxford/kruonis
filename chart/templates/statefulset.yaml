@@ -58,4 +58,3 @@ spec:
           secret:
             secretName: {{ $secret }}
         {{- end }}
-        {{- end }}
