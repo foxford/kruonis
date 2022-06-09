@@ -1,0 +1,11 @@
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "kruonis.name" . }}-pdb
+  labels:
+    {{- include "kruonis.labels" . | nindent 4 }}
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      {{- include "kruonis.selectorLabels" . | nindent 6 }}

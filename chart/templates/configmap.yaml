@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{- include "kruonis.labels" . | nindent 4 }}
+  name: {{ include "kruonis.name" . }}-config
+data:
+  App.toml: |
+    {{- $id := list (include "kruonis.name" . ) (include "kruonis.shortNamespace" .) .Values.svc.audience | compact | join "." }}
+    id = {{ $id | quote }}
+    {{- $broker_id := list "mqtt-gateway" (include "kruonis.shortNamespace" .) .Values.svc.audience | compact | join "." }}
+    broker_id = {{ $broker_id | quote }}
+    {{- $svc_audience := list (include "kruonis.shortNamespace" $) .Values.svc.audience | compact | join "." }}
+    svc_audience = {{ $svc_audience | quote }}
+
+    [id_token]
+    algorithm = "ES256"
+    key = "data/keys/svc.private_key.p8.der"
+
+    [mqtt]
+    uri = "tcp://mqtt-gateway-loadbalancer-internal:51883"
+    clean_session = {{ .Values.config.mqtt.clean_session | quote }}
+    reconnect_interval = {{ .Values.config.mqtt.reconnect_interval | quote }}
+    keep_alive = {{ .Values.config.mqtt.keep_alive | quote }}
+
+    {{- println "" }}
+
+    [events]
+    {{- range .Values.config.events }}
+    {{ .name | quote }} = {{ .value | quote }}
+    {{- end }}

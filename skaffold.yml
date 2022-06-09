@@ -12,6 +12,13 @@ build:
     useDockerCLI: true
     tryImportMissing: true
 deploy:
-  kustomize:
-    paths:
-    - deploy/k8s/overlays/ns
+  helm:
+    releases:
+      - name: kruonis
+        chartPath: chart
+        artifactOverrides:
+          container.image: foxford/kruonis
+        imageStrategy:
+          helm: {}
+        valuesFiles:
+          - deploy/values.yaml
