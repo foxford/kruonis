@@ -10,7 +10,7 @@ env:
 svc:
   audience: foo.bar.com
   credentials:
-    svc-pkcs8-der-credentials:
+    pkcs8-der-credentials:
       - mountPath: /app/data/keys/svc.private_key.p8.der
         subPath: svc.private_key
 

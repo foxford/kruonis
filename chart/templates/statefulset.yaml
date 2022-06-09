@@ -42,7 +42,7 @@ spec:
               subPath: App.toml
             {{- range $secret, $mounts := .Values.svc.credentials }}
             {{- range $mounts }}
-            - name: {{ include "kruonis.volumeMountName" (list "svc" $secret }}
+            - name: {{ include "kruonis.volumeMountName" (list "svc" $secret) }}
               mountPath: {{ .mountPath }}
               subPath: {{ .subPath }}
             {{- end }}
