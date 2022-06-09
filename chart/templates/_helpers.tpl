@@ -83,10 +83,10 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Create volumeMount name from audience and secret name
+Create volumeMount name
 */}}
 {{- define "kruonis.volumeMountName" -}}
-{{- $audience := index . 0 -}}
+{{- $prefix := index . 0 -}}
 {{- $secret := index . 1 -}}
-{{- printf "%s-%s-secret" $audience $secret | replace "." "-" | trunc 63 }}
+{{- printf "%s-%s-secret" $prefix $secret | replace "." "-" | trunc 63 }}
 {{- end }}

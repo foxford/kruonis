@@ -40,15 +40,22 @@ spec:
             - name: config
               mountPath: /app/App.toml
               subPath: App.toml
-            - name: svc
-              mountPath: /app/data/keys/svc.private_key.p8.der
-              subPath: svc.private_key
+            {{- range $secret, $mounts := .Values.svc.credentials }}
+            {{- range $mounts }}
+            - name: {{ include "kruonis.volumeMountName" (list "svc" $secret }}
+              mountPath: {{ .mountPath }}
+              subPath: {{ .subPath }}
+            {{- end }}
+            {{- end }}
           resources:
             {{- toYaml .Values.container.resources | nindent 12 }}
       volumes:
         - name: config
           configMap:
             name: kruonis-config
-        - name: svc
+        {{- range $secret, $mounts := .Values.svc.credentials }}
+        - name: {{ include "kruonis.volumeMountName" (list "svc" $secret) }}
           secret:
-            secretName: svc-pkcs8-der-credentials
+            secretName: {{ $secret }}
+        {{- end }}
+        {{- end }}
